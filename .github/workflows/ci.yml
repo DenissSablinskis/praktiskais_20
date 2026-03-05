@@ -21,8 +21,23 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v3
 
+      - name: Ieiet reģistra
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Buvet image
-        run: docker build -t app:v.1.0.${{ github.run_number }} .
+        run: |
+          REPO_NAME=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_ID=ghcr.io/$REPO_NAME/app
+        
+          docker build -t $IMAGE_ID:v.1.0.${{ github.run_number }} .
+          docker push $IMAGE_ID:v.1.0.${{ github.run_number }}
