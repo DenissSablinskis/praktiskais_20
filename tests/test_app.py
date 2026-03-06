@@ -2,7 +2,7 @@
 from app import izvilkt_kvadratsakni
 
 def test_izvilkt_kvadratsakni_25():
-    assert izvilkt_kvadratsakni(25) == 3
+    assert izvilkt_kvadratsakni(25) == 5
 
 def test_izvilkt_kvadratsakni_36():
     assert izvilkt_kvadratsakni(36) == 6
